@@ -8,8 +8,8 @@ interface MapViewProps {
   location: GeoLocation;
 }
 
-// Free OpenStreetMap-based vector tile style (no token required)
-const MAP_STYLE = "https://demotiles.maplibre.org/style.json";
+// OpenStreetMap streets style (no token required)
+const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
 export function MapView({ location }: MapViewProps) {
   const [viewport, setViewport] = useState<Viewport>({
