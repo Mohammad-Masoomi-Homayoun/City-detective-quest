@@ -1,11 +1,10 @@
 import { useState, useCallback } from "react";
 import MapGL, { type Viewport } from "@urbica/react-map-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { UserMarker } from "./UserMarker";
+import { DetectiveMarker } from "./DetectiveMarker";
 import { MapCircles } from "./MapCircles";
 import type { GeoLocation } from "../hooks/useGeolocation";
 import type { MapCircle } from "../types/map";
-import { getCirclesCenter } from "../utils/geoCircle";
 
 interface MapViewProps {
   location: GeoLocation;
@@ -16,13 +15,10 @@ interface MapViewProps {
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
 export function MapView({ location, circles = [] }: MapViewProps) {
-  // Center on circles average if provided, otherwise on user location
-  const center =
-    circles.length > 0 ? getCirclesCenter(circles) : location;
-
+  // Always center on the detective (user) location on first load
   const [viewport, setViewport] = useState<Viewport>({
-    latitude: center.latitude,
-    longitude: center.longitude,
+    latitude: location.latitude,
+    longitude: location.longitude,
     zoom: 15,
   });
 
@@ -40,7 +36,7 @@ export function MapView({ location, circles = [] }: MapViewProps) {
         zoom={viewport.zoom}
         onViewportChange={handleViewportChange}
       >
-        <UserMarker
+        <DetectiveMarker
           latitude={location.latitude}
           longitude={location.longitude}
         />

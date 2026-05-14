@@ -75,17 +75,30 @@ body,
   color: #856404;
 }
 
-/* User marker */
-.user-marker {
+/* Detective marker */
+.detective-marker {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  background: #4285f4;
+  border: none;
+  border-radius: 50%;
+  padding: 2px;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
-.user-marker:hover {
-  transform: scale(1.15);
+.detective-marker:hover {
+  transform: scale(1.2);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* Circle popup */
