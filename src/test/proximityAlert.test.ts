@@ -35,8 +35,8 @@ describe("haversineDistance", () => {
 
 describe("findCircleContainingPoint", () => {
   const circles: MapCircle[] = [
-    { lat: 51.432742, lng: 5.439947, radius: 50 },
-    { lat: 52.3676, lng: 4.9041, radius: 1200 },
+    { lat: 51.432742, lng: 5.439947, radius: 50, status: "OPEN" },
+    { lat: 52.3676, lng: 4.9041, radius: 1200, status: "OPEN" },
   ];
 
   it("returns index when point is inside a circle", () => {
@@ -74,7 +74,7 @@ describe("findCircleContainingPoint", () => {
 
 describe("useProximityAlert", () => {
   const circles: MapCircle[] = [
-    { lat: 51.432742, lng: 5.439947, radius: 50 },
+    { lat: 51.432742, lng: 5.439947, radius: 50, status: "OPEN" },
   ];
 
   beforeEach(() => {

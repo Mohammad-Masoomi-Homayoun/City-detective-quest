@@ -260,3 +260,18 @@ body,
     opacity: 1;
   }
 }
+
+/* Site marker (solved/failed) */
+.site-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.site-marker:hover {
+  transform: scale(1.15);
+}

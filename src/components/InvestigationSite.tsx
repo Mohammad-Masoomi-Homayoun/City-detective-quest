@@ -2,6 +2,8 @@ import { useMemo, useState, useCallback } from "react";
 import { Source, Layer, Marker } from "@urbica/react-map-gl";
 import type { MapCircle } from "../types/map";
 import { circlesToGeoJSON } from "../utils/geoCircle";
+import failedImg from "../assets/failed.avif";
+import solvedImg from "../assets/solved.png";
 
 interface InvestigationSiteProps {
   circles: MapCircle[];
@@ -23,7 +25,11 @@ export function InvestigationSite({
   strokeColor = "rgba(26, 115, 232, 0.8)",
   strokeWidth = 2,
 }: InvestigationSiteProps) {
-  const geojson = useMemo(() => circlesToGeoJSON(circles), [circles]);
+  const openCircles = useMemo(
+    () => circles.filter((c) => c.status === "OPEN"),
+    [circles]
+  );
+  const geojson = useMemo(() => circlesToGeoJSON(openCircles), [openCircles]);
   const [panelInfo, setPanelInfo] = useState<PanelInfo | null>(null);
 
   const handleMarkerClick = useCallback(
@@ -60,7 +66,7 @@ export function InvestigationSite({
         />
       </Source>
 
-      {/* Jumping question mark at the center of each circle */}
+      {/* Marker at the center of each circle based on status */}
       {circles.map((circle, index) => (
         <Marker
           key={index}
@@ -68,13 +74,31 @@ export function InvestigationSite({
           longitude={circle.lng}
           anchor="center"
         >
-          <div
-            className="jumping-question-mark"
-            aria-label="Investigation site"
-            onClick={() => handleMarkerClick(index)}
-          >
-            <span>?</span>
-          </div>
+          {circle.status === "FAILED" ? (
+            <div
+              className="site-marker"
+              aria-label="Failed investigation"
+              onClick={() => handleMarkerClick(index)}
+            >
+              <img src={failedImg} alt="Failed" width="38" height="38" />
+            </div>
+          ) : circle.status === "SOLVED" ? (
+            <div
+              className="site-marker"
+              aria-label="Solved investigation"
+              onClick={() => handleMarkerClick(index)}
+            >
+              <img src={solvedImg} alt="Solved" width="30" height="30" />
+            </div>
+          ) : (
+            <div
+              className="jumping-question-mark"
+              aria-label="Open investigation"
+              onClick={() => handleMarkerClick(index)}
+            >
+              <span>?</span>
+            </div>
+          )}
         </Marker>
       ))}
 
