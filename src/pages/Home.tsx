@@ -1,5 +1,6 @@
 import { useGeolocation } from "../hooks/useGeolocation";
 import { MapView } from "../components/MapView";
+import { mockCircles } from "../data/mockCircles";
 
 export function Home() {
   const { location, loading, error } = useGeolocation();
@@ -25,7 +26,7 @@ export function Home() {
           </p>
         </div>
       )}
-      <MapView location={location} />
+      <MapView location={location} circles={mockCircles} />
     </div>
   );
 }

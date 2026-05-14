@@ -2,20 +2,28 @@ import { useState, useCallback } from "react";
 import MapGL, { type Viewport } from "@urbica/react-map-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { UserMarker } from "./UserMarker";
+import { MapCircles } from "./MapCircles";
 import type { GeoLocation } from "../hooks/useGeolocation";
+import type { MapCircle } from "../types/map";
+import { getCirclesCenter } from "../utils/geoCircle";
 
 interface MapViewProps {
   location: GeoLocation;
+  circles?: MapCircle[];
 }
 
 // OpenStreetMap streets style (no token required)
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
-export function MapView({ location }: MapViewProps) {
+export function MapView({ location, circles = [] }: MapViewProps) {
+  // Center on circles average if provided, otherwise on user location
+  const center =
+    circles.length > 0 ? getCirclesCenter(circles) : location;
+
   const [viewport, setViewport] = useState<Viewport>({
-    latitude: location.latitude,
-    longitude: location.longitude,
-    zoom: 14,
+    latitude: center.latitude,
+    longitude: center.longitude,
+    zoom: 15,
   });
 
   const handleViewportChange = useCallback((newViewport: Viewport) => {
@@ -36,6 +44,7 @@ export function MapView({ location }: MapViewProps) {
           latitude={location.latitude}
           longitude={location.longitude}
         />
+        {circles.length > 0 && <MapCircles circles={circles} />}
       </MapGL>
     </div>
   );
