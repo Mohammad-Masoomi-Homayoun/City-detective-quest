@@ -20,7 +20,7 @@ export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapV
   const [viewport, setViewport] = useState<Viewport>({
     latitude: location.latitude,
     longitude: location.longitude,
-    zoom: 15,
+    zoom: 17,
   });
 
   const handleViewportChange = useCallback((newViewport: Viewport) => {
