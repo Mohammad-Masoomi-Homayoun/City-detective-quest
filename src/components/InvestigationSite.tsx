@@ -1,12 +1,15 @@
 import { useMemo, useState, useCallback } from "react";
 import { Source, Layer, Marker } from "@urbica/react-map-gl";
 import type { MapCircle } from "../types/map";
+import type { GeoLocation } from "../hooks/useGeolocation";
 import { circlesToGeoJSON } from "../utils/geoCircle";
+import { haversineDistance } from "../utils/distance";
 import failedImg from "../assets/failed.avif";
 import solvedImg from "../assets/solved.png";
 
 interface InvestigationSiteProps {
   circles: MapCircle[];
+  userLocation: GeoLocation;
   fillColor?: string;
   fillOpacity?: number;
   strokeColor?: string;
@@ -20,6 +23,7 @@ interface PanelInfo {
 
 export function InvestigationSite({
   circles,
+  userLocation,
   fillColor = "rgba(26, 115, 232, 0.25)",
   fillOpacity = 1,
   strokeColor = "rgba(26, 115, 232, 0.8)",
@@ -88,7 +92,7 @@ export function InvestigationSite({
               aria-label="Solved investigation"
               onClick={() => handleMarkerClick(index)}
             >
-              <img src={solvedImg} alt="Solved" width="30" height="30" />
+              <img src={solvedImg} alt="Solved" width="38" height="38" />
             </div>
           ) : (
             <div
@@ -114,6 +118,17 @@ export function InvestigationSite({
               ✕
             </button>
             <h3 className="info-panel__title">🔍 Mystery Zone #{panelInfo.index + 1}</h3>
+            <p className="info-panel__text">
+              <strong>Distance:</strong>{" "}
+              {Math.round(
+                haversineDistance(
+                  userLocation.latitude,
+                  userLocation.longitude,
+                  panelInfo.circle.lat,
+                  panelInfo.circle.lng
+                )
+              )}m away from you
+            </p>
             <p className="info-panel__text">
               A suspicious area has been detected! The zone covers a radius of{" "}
               <strong>{panelInfo.circle.radius}m</strong> around coordinates{" "}

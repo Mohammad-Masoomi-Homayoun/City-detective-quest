@@ -40,7 +40,7 @@ export function MapView({ location, circles = [] }: MapViewProps) {
           latitude={location.latitude}
           longitude={location.longitude}
         />
-        {circles.length > 0 && <InvestigationSite circles={circles} />}
+        {circles.length > 0 && <InvestigationSite circles={circles} userLocation={location} />}
       </MapGL>
     </div>
   );
