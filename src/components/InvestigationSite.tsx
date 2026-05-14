@@ -152,7 +152,7 @@ export function InvestigationSite({
             >
               ✕
             </button>
-            <h3 className="info-panel__title">🔍 Mystery Zone #{panelInfo.index + 1}</h3>
+            <h3 className="info-panel__title">🔍 {panelInfo.circle.title}</h3>
             <p className="info-panel__text">
               <strong>Distance:</strong>{" "}
               {Math.round(
