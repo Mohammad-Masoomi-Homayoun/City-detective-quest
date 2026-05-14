@@ -155,7 +155,7 @@ body,
   overflow-y: auto;
 }
 
-.info-panel--open {
+.info-panel--visible {
   transform: translateY(0);
 }
 
@@ -274,4 +274,17 @@ body,
 
 .site-marker:hover {
   transform: scale(1.15);
+}
+
+/* Panel status backgrounds */
+.info-panel--failed {
+  background: #ffe0e0;
+}
+
+.info-panel--solved {
+  background: #e0ffe0;
+}
+
+.info-panel--open {
+  background: #f0f0f0;
 }

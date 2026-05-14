@@ -107,7 +107,7 @@ export function InvestigationSite({
       ))}
 
       {/* Bottom panel */}
-      <div className={`info-panel ${panelInfo ? "info-panel--open" : ""}`}>
+      <div className={`info-panel ${panelInfo ? "info-panel--visible" : ""} ${panelInfo ? `info-panel--${panelInfo.circle.status.toLowerCase()}` : ""}`}>
         {panelInfo && (
           <>
             <button
