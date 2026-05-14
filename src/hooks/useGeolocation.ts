@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export interface GeoLocation {
   latitude: number;
@@ -21,6 +21,7 @@ export function useGeolocation(): UseGeolocationResult {
   const [location, setLocation] = useState<GeoLocation>(DEFAULT_LOCATION);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const watchId = useRef<number | null>(null);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -29,7 +30,7 @@ export function useGeolocation(): UseGeolocationResult {
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
+    watchId.current = navigator.geolocation.watchPosition(
       (position) => {
         setLocation({
           latitude: position.coords.latitude,
@@ -47,6 +48,12 @@ export function useGeolocation(): UseGeolocationResult {
         maximumAge: 0,
       }
     );
+
+    return () => {
+      if (watchId.current !== null) {
+        navigator.geolocation.clearWatch(watchId.current);
+      }
+    };
   }, []);
 
   return { location, loading, error };

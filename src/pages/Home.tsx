@@ -1,9 +1,12 @@
 import { useGeolocation } from "../hooks/useGeolocation";
+import { useProximityAlert } from "../hooks/useProximityAlert";
 import { MapView } from "../components/MapView";
 import { mockCircles } from "../data/mockCircles";
 
 export function Home() {
   const { location, loading, error } = useGeolocation();
+  const { insideCircleIndex, showNotification, dismissNotification } =
+    useProximityAlert(location, mockCircles);
 
   if (loading) {
     return (
@@ -26,6 +29,29 @@ export function Home() {
           </p>
         </div>
       )}
+
+      {showNotification && insideCircleIndex !== -1 && (
+        <div className="proximity-notification">
+          <div className="proximity-notification__content">
+            <span className="proximity-notification__icon">🔍</span>
+            <div>
+              <strong>You entered a mystery zone!</strong>
+              <p>
+                Zone #{insideCircleIndex + 1} — Radius:{" "}
+                {mockCircles[insideCircleIndex].radius}m
+              </p>
+            </div>
+            <button
+              className="proximity-notification__dismiss"
+              onClick={dismissNotification}
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       <MapView location={location} circles={mockCircles} />
     </div>
   );
