@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { Source, Layer, Marker } from "@urbica/react-map-gl";
 import type { MapCircle } from "../types/map";
 import type { GeoLocation } from "../hooks/useGeolocation";
@@ -10,6 +10,7 @@ import solvedImg from "../assets/solved.png";
 interface InvestigationSiteProps {
   circles: MapCircle[];
   userLocation: GeoLocation;
+  activeCircleIndex?: number;
   fillColor?: string;
   fillOpacity?: number;
   strokeColor?: string;
@@ -24,6 +25,7 @@ interface PanelInfo {
 export function InvestigationSite({
   circles,
   userLocation,
+  activeCircleIndex = -1,
   fillColor = "rgba(26, 115, 232, 0.25)",
   fillOpacity = 1,
   strokeColor = "rgba(26, 115, 232, 0.8)",
@@ -35,6 +37,17 @@ export function InvestigationSite({
   );
   const geojson = useMemo(() => circlesToGeoJSON(openCircles), [openCircles]);
   const [panelInfo, setPanelInfo] = useState<PanelInfo | null>(null);
+
+  // Auto-open panel and vibrate when detective enters a zone
+  useEffect(() => {
+    if (activeCircleIndex !== -1) {
+      setPanelInfo({ index: activeCircleIndex, circle: circles[activeCircleIndex] });
+
+      if (navigator.vibrate) {
+        navigator.vibrate(200);
+      }
+    }
+  }, [activeCircleIndex, circles]);
 
   const handleMarkerClick = useCallback(
     (index: number) => {

@@ -52,7 +52,7 @@ export function Home() {
         </div>
       )}
 
-      <MapView location={location} circles={investigationSites} />
+      <MapView location={location} circles={investigationSites} activeCircleIndex={insideCircleIndex} />
     </div>
   );
 }

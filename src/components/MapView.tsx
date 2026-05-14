@@ -9,12 +9,13 @@ import type { MapCircle } from "../types/map";
 interface MapViewProps {
   location: GeoLocation;
   circles?: MapCircle[];
+  activeCircleIndex?: number;
 }
 
 // OpenStreetMap streets style (no token required)
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
-export function MapView({ location, circles = [] }: MapViewProps) {
+export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapViewProps) {
   // Always center on the detective (user) location on first load
   const [viewport, setViewport] = useState<Viewport>({
     latitude: location.latitude,
@@ -40,7 +41,7 @@ export function MapView({ location, circles = [] }: MapViewProps) {
           latitude={location.latitude}
           longitude={location.longitude}
         />
-        {circles.length > 0 && <InvestigationSite circles={circles} userLocation={location} />}
+        {circles.length > 0 && <InvestigationSite circles={circles} userLocation={location} activeCircleIndex={activeCircleIndex} />}
       </MapGL>
     </div>
   );

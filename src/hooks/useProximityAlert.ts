@@ -33,7 +33,7 @@ export function useProximityAlert(
 
       // Vibrate on mobile (if supported)
       if (navigator.vibrate) {
-        navigator.vibrate([200, 100, 200]);
+        navigator.vibrate(200);
       }
     } else if (index === -1) {
       lastAlertedIndex.current = -1;

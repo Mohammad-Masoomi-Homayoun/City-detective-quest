@@ -47,7 +47,7 @@ src/
 
 ### Coding Conventions
 - Whenever delete or add new file -> update the Project Structre
-- 
+- When introducing new method -> annotate cause and duty descripton of meethod as comment on top of method
 
 ### Entities
 - InvestigationSite
