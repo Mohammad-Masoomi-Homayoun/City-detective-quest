@@ -3,7 +3,7 @@ import { Source, Layer, Marker } from "@urbica/react-map-gl";
 import type { MapCircle } from "../types/map";
 import { circlesToGeoJSON } from "../utils/geoCircle";
 
-interface MapCirclesProps {
+interface InvestigationSiteProps {
   circles: MapCircle[];
   fillColor?: string;
   fillOpacity?: number;
@@ -16,13 +16,13 @@ interface PanelInfo {
   circle: MapCircle;
 }
 
-export function MapCircles({
+export function InvestigationSite({
   circles,
   fillColor = "rgba(26, 115, 232, 0.25)",
   fillOpacity = 1,
   strokeColor = "rgba(26, 115, 232, 0.8)",
   strokeWidth = 2,
-}: MapCirclesProps) {
+}: InvestigationSiteProps) {
   const geojson = useMemo(() => circlesToGeoJSON(circles), [circles]);
   const [panelInfo, setPanelInfo] = useState<PanelInfo | null>(null);
 
@@ -39,20 +39,20 @@ export function MapCircles({
 
   return (
     <>
-      <Source id="circles-source" type="geojson" data={geojson}>
+      <Source id="investigation-site-source" type="geojson" data={geojson}>
         <Layer
-          id="circles-fill"
+          id="investigation-site-fill"
           type="fill"
-          source="circles-source"
+          source="investigation-site-source"
           paint={{
             "fill-color": fillColor,
             "fill-opacity": fillOpacity,
           }}
         />
         <Layer
-          id="circles-stroke"
+          id="investigation-site-stroke"
           type="line"
-          source="circles-source"
+          source="investigation-site-source"
           paint={{
             "line-color": strokeColor,
             "line-width": strokeWidth,
@@ -70,7 +70,7 @@ export function MapCircles({
         >
           <div
             className="jumping-question-mark"
-            aria-label="Unknown area"
+            aria-label="Investigation site"
             onClick={() => handleMarkerClick(index)}
           >
             <span>?</span>

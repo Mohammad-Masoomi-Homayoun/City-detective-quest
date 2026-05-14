@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import MapGL, { type Viewport } from "@urbica/react-map-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { DetectiveMarker } from "./DetectiveMarker";
-import { MapCircles } from "./MapCircles";
+import { InvestigationSite } from "./InvestigationSite";
 import type { GeoLocation } from "../hooks/useGeolocation";
 import type { MapCircle } from "../types/map";
 
@@ -40,7 +40,7 @@ export function MapView({ location, circles = [] }: MapViewProps) {
           latitude={location.latitude}
           longitude={location.longitude}
         />
-        {circles.length > 0 && <MapCircles circles={circles} />}
+        {circles.length > 0 && <InvestigationSite circles={circles} />}
       </MapGL>
     </div>
   );
