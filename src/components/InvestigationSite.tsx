@@ -39,6 +39,28 @@ export function InvestigationSite({
   const handleMarkerClick = useCallback(
     (index: number) => {
       setPanelInfo({ index, circle: circles[index] });
+
+      // Vibrate on mobile
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+
+      // Browser notification on desktop
+      if (!navigator.vibrate && "Notification" in window) {
+        if (Notification.permission === "granted") {
+          new Notification("🔍 Investigation Site", {
+            body: `Zone #${index + 1} — ${circles[index].status}`,
+          });
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              new Notification("🔍 Investigation Site", {
+                body: `Zone #${index + 1} — ${circles[index].status}`,
+              });
+            }
+          });
+        }
+      }
     },
     [circles]
   );
