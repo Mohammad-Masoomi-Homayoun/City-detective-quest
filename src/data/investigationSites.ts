@@ -1,6 +1,6 @@
 import type { MapCircle } from "../types/map";
 
-export const mockCircles: MapCircle[] = [
+export const investigationSites: MapCircle[] = [
   {
     lat: 51.432742,
     lng: 5.439947,
