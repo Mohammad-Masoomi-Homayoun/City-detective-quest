@@ -1,6 +1,6 @@
 export type InvestigationStatus = "SOLVED" | "FAILED" | "OPEN";
 
-export interface MapCircle {
+export interface InvestigationSite {
   id: number;
   lat: number;
   lng: number;

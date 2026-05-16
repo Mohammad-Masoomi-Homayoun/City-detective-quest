@@ -1,4 +1,4 @@
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 
 const EARTH_RADIUS = 6371000; // meters
 
@@ -33,7 +33,7 @@ export function haversineDistance(
 export function findCircleContainingPoint(
   lat: number,
   lng: number,
-  circles: MapCircle[]
+  circles: InvestigationSite[]
 ): number {
   for (let i = 0; i < circles.length; i++) {
     const distance = haversineDistance(lat, lng, circles[i].lat, circles[i].lng);

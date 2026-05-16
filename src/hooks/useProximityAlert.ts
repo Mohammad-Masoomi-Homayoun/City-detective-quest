@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { GeoLocation } from "./useGeolocation";
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 import { findCircleContainingPoint } from "../utils/distance";
 
 interface ProximityAlertResult {
@@ -11,7 +11,7 @@ interface ProximityAlertResult {
 
 export function useProximityAlert(
   location: GeoLocation,
-  circles: MapCircle[]
+  circles: InvestigationSite[]
 ): ProximityAlertResult {
   const [insideCircleIndex, setInsideCircleIndex] = useState(-1);
   const [showNotification, setShowNotification] = useState(false);

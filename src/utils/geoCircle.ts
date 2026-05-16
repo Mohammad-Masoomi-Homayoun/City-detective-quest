@@ -1,4 +1,4 @@
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 
 const EARTH_RADIUS = 6371000; // meters
 const CIRCLE_SEGMENTS = 64;
@@ -43,11 +43,11 @@ function createCirclePolygon(
 }
 
 /**
- * Convert an array of MapCircle items into a GeoJSON FeatureCollection
+ * Convert an array of InvestigationSite items into a GeoJSON FeatureCollection
  * of polygon circles suitable for rendering on a map.
  */
 export function circlesToGeoJSON(
-  circles: MapCircle[]
+  circles: InvestigationSite[]
 ): GeoJSON.FeatureCollection<GeoJSON.Polygon> {
   return {
     type: "FeatureCollection",
@@ -60,7 +60,7 @@ export function circlesToGeoJSON(
 /**
  * Calculate the geographic center (average) of all circle coordinates.
  */
-export function getCirclesCenter(circles: MapCircle[]): {
+export function getCirclesCenter(circles: InvestigationSite[]): {
   latitude: number;
   longitude: number;
 } {

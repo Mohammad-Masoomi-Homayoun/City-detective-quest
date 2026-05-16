@@ -2,13 +2,13 @@ import { useState, useCallback } from "react";
 import MapGL, { type Viewport } from "@urbica/react-map-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { DetectiveMarker } from "./DetectiveMarker";
-import { InvestigationSite } from "./InvestigationSite";
+import { InvestigationSite as InvestigationSiteLayer } from "./InvestigationSite";
 import type { GeoLocation } from "../hooks/useGeolocation";
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 
 interface MapViewProps {
   location: GeoLocation;
-  circles?: MapCircle[];
+  circles?: InvestigationSite[];
   activeCircleIndex?: number;
 }
 
@@ -41,7 +41,7 @@ export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapV
           latitude={location.latitude}
           longitude={location.longitude}
         />
-        {circles.length > 0 && <InvestigationSite circles={circles} userLocation={location} activeCircleIndex={activeCircleIndex} />}
+        {circles.length > 0 && <InvestigationSiteLayer circles={circles} userLocation={location} activeCircleIndex={activeCircleIndex} />}
       </MapGL>
     </div>
   );

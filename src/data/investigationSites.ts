@@ -1,6 +1,6 @@
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 
-export const investigationSites: MapCircle[] = [
+export const investigationSites: InvestigationSite[] = [
   {
     id: 1,
     lat: 51.432742,

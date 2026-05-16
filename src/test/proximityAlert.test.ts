@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useProximityAlert } from "../hooks/useProximityAlert";
 import { haversineDistance, findCircleContainingPoint } from "../utils/distance";
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 import type { GeoLocation } from "../hooks/useGeolocation";
 
 // ─── Distance utility tests ───────────────────────────────────────────────────
@@ -34,7 +34,7 @@ describe("haversineDistance", () => {
 // ─── findCircleContainingPoint tests ──────────────────────────────────────────
 
 describe("findCircleContainingPoint", () => {
-  const circles: MapCircle[] = [
+  const circles: InvestigationSite[] = [
     { lat: 51.432742, lng: 5.439947, radius: 50, status: "OPEN", title: "Test Site 1", id: 1 },
     { lat: 52.3676, lng: 4.9041, radius: 1200, status: "OPEN", title: "Test Site 2", id: 2 },
   ];
@@ -73,7 +73,7 @@ describe("findCircleContainingPoint", () => {
 // ─── useProximityAlert hook tests ─────────────────────────────────────────────
 
 describe("useProximityAlert", () => {
-  const circles: MapCircle[] = [
+  const circles: InvestigationSite[] = [
     { lat: 51.432742, lng: 5.439947, radius: 50, status: "OPEN", title: "Test Site", id: 1 },
   ];
 

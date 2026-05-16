@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { Source, Layer, Marker } from "@urbica/react-map-gl";
-import type { MapCircle } from "../types/map";
+import type { InvestigationSite } from "../types/investigationSite";
 import type { GeoLocation } from "../hooks/useGeolocation";
 import { circlesToGeoJSON } from "../utils/geoCircle";
 import { haversineDistance } from "../utils/distance";
@@ -8,7 +8,7 @@ import failedImg from "../assets/failed.avif";
 import solvedImg from "../assets/solved.png";
 
 interface InvestigationSiteProps {
-  circles: MapCircle[];
+  circles: InvestigationSite[];
   userLocation: GeoLocation;
   activeCircleIndex?: number;
   fillColor?: string;
@@ -19,7 +19,7 @@ interface InvestigationSiteProps {
 
 interface PanelInfo {
   index: number;
-  circle: MapCircle;
+  circle: InvestigationSite;
 }
 
 export function InvestigationSite({
