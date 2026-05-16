@@ -1,6 +1,7 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { Source, Layer, Marker } from "@urbica/react-map-gl";
 import type { InvestigationSite } from "../types/investigationSite";
+import type { Quest } from "../types/quest";
 import type { GeoLocation } from "../hooks/useGeolocation";
 import { circlesToGeoJSON } from "../utils/geoCircle";
 import { haversineDistance } from "../utils/distance";
@@ -9,6 +10,7 @@ import solvedImg from "../assets/solved.png";
 
 interface InvestigationSiteProps {
   circles: InvestigationSite[];
+  quests?: Quest[];
   userLocation: GeoLocation;
   activeCircleIndex?: number;
   onMarkerClick?: (index: number) => void;
@@ -26,6 +28,7 @@ interface PanelInfo {
 /* InvestigationSite component*/
 export function InvestigationSite({
   circles,
+  quests = [],
   userLocation,
   activeCircleIndex = -1,
   onMarkerClick,
@@ -165,7 +168,10 @@ export function InvestigationSite({
               >
                 ✕
               </button>
-              <h3 className="info-panel__title">🔍 {panelInfo.circle.title}</h3>
+              <h3 className="info-panel__title">🔍 {quests[panelInfo.index]?.title || panelInfo.circle.title}</h3>
+              <p className="info-panel__text">
+                {quests[panelInfo.index]?.description}
+              </p>
               <p className="info-panel__text">
                 <strong>Distance:</strong>{" "}
                 {Math.round(
@@ -178,12 +184,7 @@ export function InvestigationSite({
                 )}m away from you
               </p>
               <p className="info-panel__text">
-                A suspicious area has been detected! The zone covers a radius of{" "}
-                <strong>{panelInfo.circle.radius}m</strong> around coordinates{" "}
-                ({panelInfo.circle.lat.toFixed(4)}, {panelInfo.circle.lng.toFixed(4)}).
-              </p>
-              <p className="info-panel__text">
-                Investigate this location to uncover clues and solve the mystery.
+                Radius: <strong>{panelInfo.circle.radius}m</strong>
               </p>
             </>
           )}

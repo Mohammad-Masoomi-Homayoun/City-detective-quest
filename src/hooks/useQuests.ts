@@ -1,18 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-import { fetchQuests, type QuestResponse } from "../api/questApi";
+import { fetchQuests } from "../api/questApi";
+import type { Quest } from "../types/quest";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 3000;
 
 interface UseQuestsResult {
-  quests: QuestResponse[];
+  quests: Quest[];
   loading: boolean;
   error: string | null;
   retry: () => void;
 }
 
 export function useQuests(): UseQuestsResult {
-  const [quests, setQuests] = useState<QuestResponse[]>([]);
+  const [quests, setQuests] = useState<Quest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);

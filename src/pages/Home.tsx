@@ -11,15 +11,7 @@ export function Home() {
   const { quests, loading: questsLoading, error: questsError, retry } = useQuests();
 
   const investigationSites: InvestigationSite[] = useMemo(
-    () =>
-      quests.map((q) => ({
-        id: q.investigationSite.id,
-        lat: q.investigationSite.lat,
-        lng: q.investigationSite.lng,
-        radius: q.investigationSite.radius,
-        status: q.investigationSite.status || "OPEN",
-        title: q.investigationSite.title,
-      })),
+    () => quests.map((q) => q.investigationSite),
     [quests]
   );
 
@@ -138,6 +130,7 @@ export function Home() {
       <MapView
         location={location}
         circles={investigationSites}
+        quests={quests}
         activeCircleIndex={insideCircleIndex}
         onMarkerClick={handleMarkerClick}
       />
