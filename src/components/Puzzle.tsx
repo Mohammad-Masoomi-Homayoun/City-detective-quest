@@ -1,19 +1,19 @@
 import { useState, useCallback } from "react";
 import type { Puzzle } from "../types/puzzle";
 
-interface PuzzlePanelProps {
+interface PuzzleProps {
   puzzle: Puzzle;
   isOpen: boolean;
   onClose: () => void;
   onSubmitAnswer: (answer: string) => void;
 }
-
-export function PuzzlePanel({
+/* Puzzle component */
+export function Puzzle({
   puzzle,
   isOpen,
   onClose,
   onSubmitAnswer,
-}: PuzzlePanelProps) {
+}: PuzzleProps) {
   const [answer, setAnswer] = useState("");
   const [showHint, setShowHint] = useState(false);
   const [hintLevel, setHintLevel] = useState(0);

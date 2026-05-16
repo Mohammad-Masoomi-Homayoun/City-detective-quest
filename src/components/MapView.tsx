@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import MapGL, { type Viewport } from "@urbica/react-map-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { DetectiveMarker } from "./DetectiveMarker";
+import { Detective } from "./Detective";
 import { InvestigationSite as InvestigationSiteLayer } from "./InvestigationSite";
 import type { GeoLocation } from "../hooks/useGeolocation";
 import type { InvestigationSite } from "../types/investigationSite";
@@ -37,7 +37,7 @@ export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapV
         zoom={viewport.zoom}
         onViewportChange={handleViewportChange}
       >
-        <DetectiveMarker
+        <Detective
           latitude={location.latitude}
           longitude={location.longitude}
         />

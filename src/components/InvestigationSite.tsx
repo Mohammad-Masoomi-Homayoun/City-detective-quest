@@ -22,6 +22,7 @@ interface PanelInfo {
   circle: InvestigationSite;
 }
 
+/* InvestigationSite component*/
 export function InvestigationSite({
   circles,
   userLocation,
@@ -141,40 +142,42 @@ export function InvestigationSite({
         </Marker>
       ))}
 
-      {/* Bottom panel */}
-      <div className={`info-panel ${panelInfo ? "info-panel--visible" : ""} ${panelInfo ? `info-panel--${panelInfo.circle.status.toLowerCase()}` : ""}`}>
-        {panelInfo && (
-          <>
-            <button
-              className="info-panel__close"
-              onClick={handleClosePanel}
-              aria-label="Close panel"
-            >
-              ✕
-            </button>
-            <h3 className="info-panel__title">🔍 {panelInfo.circle.title}</h3>
-            <p className="info-panel__text">
-              <strong>Distance:</strong>{" "}
-              {Math.round(
-                haversineDistance(
-                  userLocation.latitude,
-                  userLocation.longitude,
-                  panelInfo.circle.lat,
-                  panelInfo.circle.lng
-                )
-              )}m away from you
-            </p>
-            <p className="info-panel__text">
-              A suspicious area has been detected! The zone covers a radius of{" "}
-              <strong>{panelInfo.circle.radius}m</strong> around coordinates{" "}
-              ({panelInfo.circle.lat.toFixed(4)}, {panelInfo.circle.lng.toFixed(4)}).
-            </p>
-            <p className="info-panel__text">
-              Investigate this location to uncover clues and solve the mystery.
-            </p>
-          </>
-        )}
-      </div>
+      {/* Investivation Site Info panel — hidden when detective is inside a zone */}
+      {activeCircleIndex === -1 && (
+        <div className={`info-panel ${panelInfo ? "info-panel--visible" : ""} ${panelInfo ? `info-panel--${panelInfo.circle.status.toLowerCase()}` : ""}`}>
+          {panelInfo && (
+            <>
+              <button
+                className="info-panel__close"
+                onClick={handleClosePanel}
+                aria-label="Close panel"
+              >
+                ✕
+              </button>
+              <h3 className="info-panel__title">🔍 {panelInfo.circle.title}</h3>
+              <p className="info-panel__text">
+                <strong>Distance:</strong>{" "}
+                {Math.round(
+                  haversineDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    panelInfo.circle.lat,
+                    panelInfo.circle.lng
+                  )
+                )}m away from you
+              </p>
+              <p className="info-panel__text">
+                A suspicious area has been detected! The zone covers a radius of{" "}
+                <strong>{panelInfo.circle.radius}m</strong> around coordinates{" "}
+                ({panelInfo.circle.lat.toFixed(4)}, {panelInfo.circle.lng.toFixed(4)}).
+              </p>
+              <p className="info-panel__text">
+                Investigate this location to uncover clues and solve the mystery.
+              </p>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }

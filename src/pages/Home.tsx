@@ -3,7 +3,7 @@ import { useGeolocation } from "../hooks/useGeolocation";
 import { useProximityAlert } from "../hooks/useProximityAlert";
 import { useQuests } from "../hooks/useQuests";
 import { MapView } from "../components/MapView";
-import { PuzzlePanel } from "../components/PuzzlePanel";
+import { Puzzle } from "../components/Puzzle";
 import type { InvestigationSite } from "../types/investigationSite";
 
 export function Home() {
@@ -26,19 +26,32 @@ export function Home() {
   const { insideCircleIndex, showNotification, dismissNotification } =
     useProximityAlert(location, investigationSites);
 
+  const [showSitePanel, setShowSitePanel] = useState(false);
   const [showPuzzle, setShowPuzzle] = useState(false);
   const [activeQuestIndex, setActiveQuestIndex] = useState(-1);
 
-  // Open puzzle panel when detective enters an investigation site
+  // Show puzzle panel directly when detective enters an investigation site
   useEffect(() => {
     if (insideCircleIndex !== -1) {
       setActiveQuestIndex(insideCircleIndex);
+      setShowSitePanel(false);
       setShowPuzzle(true);
+    } else {
+      setShowPuzzle(false);
     }
   }, [insideCircleIndex]);
 
-  const handleClosePuzzle = useCallback(() => {
+  const handleStartPuzzle = useCallback(() => {
+    setShowSitePanel(false);
+    setShowPuzzle(true);
+  }, []);
+
+  const handleBackToMap = useCallback(() => {
     setShowPuzzle(false);
+  }, []);
+
+  const handleCloseSitePanel = useCallback(() => {
+    setShowSitePanel(false);
   }, []);
 
   const handleSubmitAnswer = useCallback(
@@ -117,11 +130,34 @@ export function Home() {
         activeCircleIndex={insideCircleIndex}
       />
 
+      {/* Site panel — shows when detective is inside a zone */}
+      {activeQuestIndex !== -1 && showSitePanel && (
+        <div className="site-panel site-panel--open">
+          <button
+            className="site-panel__close"
+            onClick={handleCloseSitePanel}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <h3 className="site-panel__title">
+            📍 {investigationSites[activeQuestIndex]?.title}
+          </h3>
+          <p className="site-panel__text">
+            You are inside the investigation zone. Ready to solve the puzzle?
+          </p>
+          <button className="site-panel__action" onClick={handleStartPuzzle}>
+            🧩 Start Puzzle
+          </button>
+        </div>
+      )}
+
+      {/* Puzzle full-screen view */}
       {activeQuestIndex !== -1 && quests[activeQuestIndex] && (
-        <PuzzlePanel
+        <Puzzle
           puzzle={quests[activeQuestIndex].puzzle}
           isOpen={showPuzzle}
-          onClose={handleClosePuzzle}
+          onClose={handleBackToMap}
           onSubmitAnswer={handleSubmitAnswer}
         />
       )}

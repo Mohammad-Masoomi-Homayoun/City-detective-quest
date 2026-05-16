@@ -1,12 +1,13 @@
 import { Marker } from "@urbica/react-map-gl";
 import detectiveLogo from "../assets/detective-logo.png";
 
-interface DetectiveMarkerProps {
+interface DetectiveProps {
   latitude: number;
   longitude: number;
 }
 
-export function DetectiveMarker({ latitude, longitude }: DetectiveMarkerProps) {
+/* Detective component */
+export function Detective({ latitude, longitude }: DetectiveProps) {
   return (
     <Marker latitude={latitude} longitude={longitude} anchor="bottom">
       <div className="detective-marker" aria-label="Your location">
