@@ -38,7 +38,7 @@ export function InvestigationSite({
   strokeWidth = 2,
 }: InvestigationSiteProps) {
   const openCircles = useMemo(
-    () => circles.filter((c) => c.status === "OPEN"),
+    () => circles.filter((c) => c && c.status === "OPEN"),
     [circles]
   );
   const geojson = useMemo(() => circlesToGeoJSON(openCircles), [openCircles]);

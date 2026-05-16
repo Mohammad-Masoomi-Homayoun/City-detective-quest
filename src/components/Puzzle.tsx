@@ -1,12 +1,13 @@
 import { useState, useCallback } from "react";
-import type { Puzzle } from "../types/puzzle";
+import type { Puzzle as PuzzleType } from "../types/puzzle";
 
 interface PuzzleProps {
-  puzzle: Puzzle;
+  puzzle: PuzzleType | null;
   isOpen: boolean;
   onClose: () => void;
   onSubmitAnswer: (answer: string) => void;
 }
+
 /* Puzzle component */
 export function Puzzle({
   puzzle,
@@ -17,6 +18,9 @@ export function Puzzle({
   const [answer, setAnswer] = useState("");
   const [showHint, setShowHint] = useState(false);
   const [hintLevel, setHintLevel] = useState(0);
+
+  const hints = puzzle?.hints ?? [];
+  const inputs = puzzle?.inputs ?? [];
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -31,8 +35,8 @@ export function Puzzle({
 
   const handleShowHint = useCallback(() => {
     setShowHint(true);
-    setHintLevel((prev) => Math.min(prev + 1, puzzle.hints.length));
-  }, [puzzle.hints.length]);
+    setHintLevel((prev) => Math.min(prev + 1, hints.length));
+  }, [hints.length]);
 
   const difficultyColor: Record<string, string> = {
     easy: "#4caf50",
@@ -40,6 +44,8 @@ export function Puzzle({
     hard: "#f44336",
     expert: "#9c27b0",
   };
+
+  if (!puzzle) return null;
 
   return (
     <div className={`puzzle-panel ${isOpen ? "puzzle-panel--open" : ""}`}>
@@ -55,7 +61,7 @@ export function Puzzle({
         <h3 className="puzzle-panel__title">{puzzle.title}</h3>
         <span
           className="puzzle-panel__difficulty"
-          style={{ background: difficultyColor[puzzle.difficulty] }}
+          style={{ background: difficultyColor[puzzle.difficulty] || "#999" }}
         >
           {puzzle.difficulty}
         </span>
@@ -71,7 +77,7 @@ export function Puzzle({
 
       {/* Hints section */}
       <div className="puzzle-panel__hints">
-        {!showHint && puzzle.hints.length > 0 && (
+        {!showHint && hints.length > 0 && (
           <button
             className="puzzle-panel__hint-btn"
             onClick={handleShowHint}
@@ -80,7 +86,7 @@ export function Puzzle({
           </button>
         )}
         {showHint &&
-          puzzle.hints.slice(0, hintLevel).map((hint, i) => (
+          hints.slice(0, hintLevel).map((hint, i) => (
             <div key={i} className="puzzle-panel__hint">
               <span className="puzzle-panel__hint-label">Hint {hint.level}:</span>{" "}
               {hint.text}
@@ -91,7 +97,7 @@ export function Puzzle({
               )}
             </div>
           ))}
-        {showHint && hintLevel < puzzle.hints.length && (
+        {showHint && hintLevel < hints.length && (
           <button
             className="puzzle-panel__hint-btn"
             onClick={handleShowHint}
@@ -108,10 +114,8 @@ export function Puzzle({
           type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          placeholder={
-            puzzle.inputs[0]?.placeholder || "Enter your answer..."
-          }
-          aria-label={puzzle.inputs[0]?.label || "Answer"}
+          placeholder={inputs[0]?.placeholder || "Enter your answer..."}
+          aria-label={inputs[0]?.label || "Answer"}
         />
         <button className="puzzle-panel__submit" type="submit">
           Submit

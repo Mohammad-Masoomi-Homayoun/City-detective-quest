@@ -11,7 +11,7 @@ export function Home() {
   const { quests, loading: questsLoading, error: questsError, retry } = useQuests();
 
   const investigationSites: InvestigationSite[] = useMemo(
-    () => quests.map((q) => q.investigationSite),
+    () => quests.map((q) => q.investigationSite).filter(Boolean) as InvestigationSite[],
     [quests]
   );
 

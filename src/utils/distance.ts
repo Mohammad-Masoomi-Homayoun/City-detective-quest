@@ -35,9 +35,14 @@ export function findCircleContainingPoint(
   lng: number,
   circles: InvestigationSite[]
 ): number {
+  if (!circles || circles.length === 0) return -1;
+
   for (let i = 0; i < circles.length; i++) {
-    const distance = haversineDistance(lat, lng, circles[i].lat, circles[i].lng);
-    if (distance <= circles[i].radius) {
+    const circle = circles[i];
+    if (!circle || circle.lat == null || circle.lng == null) continue;
+
+    const distance = haversineDistance(lat, lng, circle.lat, circle.lng);
+    if (distance <= circle.radius) {
       return i;
     }
   }
