@@ -54,6 +54,17 @@ export function Home() {
     setShowSitePanel(false);
   }, []);
 
+  const handleMarkerClick = useCallback(
+    (index: number) => {
+      // If detective is inside a zone and clicks that same zone, show puzzle
+      if (insideCircleIndex !== -1 && index === insideCircleIndex) {
+        setActiveQuestIndex(index);
+        setShowPuzzle(true);
+      }
+    },
+    [insideCircleIndex]
+  );
+
   const handleSubmitAnswer = useCallback(
     (answer: string) => {
       const quest = quests[activeQuestIndex];
@@ -128,6 +139,7 @@ export function Home() {
         location={location}
         circles={investigationSites}
         activeCircleIndex={insideCircleIndex}
+        onMarkerClick={handleMarkerClick}
       />
 
       {/* Site panel — shows when detective is inside a zone */}

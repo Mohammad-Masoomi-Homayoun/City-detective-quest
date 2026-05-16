@@ -10,12 +10,13 @@ interface MapViewProps {
   location: GeoLocation;
   circles?: InvestigationSite[];
   activeCircleIndex?: number;
+  onMarkerClick?: (index: number) => void;
 }
 
 // OpenStreetMap streets style (no token required)
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
-export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapViewProps) {
+export function MapView({ location, circles = [], activeCircleIndex = -1, onMarkerClick }: MapViewProps) {
   // Always center on the detective (user) location on first load
   const [viewport, setViewport] = useState<Viewport>({
     latitude: location.latitude,
@@ -41,7 +42,7 @@ export function MapView({ location, circles = [], activeCircleIndex = -1 }: MapV
           latitude={location.latitude}
           longitude={location.longitude}
         />
-        {circles.length > 0 && <InvestigationSiteLayer circles={circles} userLocation={location} activeCircleIndex={activeCircleIndex} />}
+        {circles.length > 0 && <InvestigationSiteLayer circles={circles} userLocation={location} activeCircleIndex={activeCircleIndex} onMarkerClick={onMarkerClick} />}
       </MapGL>
     </div>
   );

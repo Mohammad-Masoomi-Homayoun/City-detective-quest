@@ -11,6 +11,7 @@ interface InvestigationSiteProps {
   circles: InvestigationSite[];
   userLocation: GeoLocation;
   activeCircleIndex?: number;
+  onMarkerClick?: (index: number) => void;
   fillColor?: string;
   fillOpacity?: number;
   strokeColor?: string;
@@ -27,6 +28,7 @@ export function InvestigationSite({
   circles,
   userLocation,
   activeCircleIndex = -1,
+  onMarkerClick,
   fillColor = "rgba(26, 115, 232, 0.25)",
   fillOpacity = 1,
   strokeColor = "rgba(26, 115, 232, 0.8)",
@@ -52,7 +54,16 @@ export function InvestigationSite({
 
   const handleMarkerClick = useCallback(
     (index: number) => {
-      setPanelInfo({ index, circle: circles[index] });
+      // Notify parent about the click
+      if (onMarkerClick) {
+        onMarkerClick(index);
+      }
+
+      // Only show info panel if detective is NOT inside a zone,
+      // or if clicking a different site than the one detective is in
+      if (activeCircleIndex === -1 || index !== activeCircleIndex) {
+        setPanelInfo({ index, circle: circles[index] });
+      }
 
       // Vibrate on mobile
       if (navigator.vibrate) {
@@ -76,7 +87,7 @@ export function InvestigationSite({
         }
       }
     },
-    [circles]
+    [circles, onMarkerClick, activeCircleIndex]
   );
 
   const handleClosePanel = useCallback(() => {
@@ -142,8 +153,8 @@ export function InvestigationSite({
         </Marker>
       ))}
 
-      {/* Investivation Site Info panel — hidden when detective is inside a zone */}
-      {activeCircleIndex === -1 && (
+      {/* Investivation Site Info panel — shown when clicking a site the detective is NOT inside */}
+      {(activeCircleIndex === -1 || (panelInfo && panelInfo.index !== activeCircleIndex)) && (
         <div className={`info-panel ${panelInfo ? "info-panel--visible" : ""} ${panelInfo ? `info-panel--${panelInfo.circle.status.toLowerCase()}` : ""}`}>
           {panelInfo && (
             <>
