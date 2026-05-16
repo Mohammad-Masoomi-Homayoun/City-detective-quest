@@ -22,12 +22,19 @@ export function Home() {
   const [showPuzzle, setShowPuzzle] = useState(false);
   const [activeQuestIndex, setActiveQuestIndex] = useState(-1);
 
-  // Show puzzle panel directly when detective enters an investigation site
+  // Show notification first, then puzzle after 3 seconds
   useEffect(() => {
     if (insideCircleIndex !== -1) {
       setActiveQuestIndex(insideCircleIndex);
       setShowSitePanel(false);
-      setShowPuzzle(true);
+      setShowPuzzle(false);
+
+      // Show puzzle after notification hides (3 seconds)
+      const timer = setTimeout(() => {
+        setShowPuzzle(true);
+      }, 3000);
+
+      return () => clearTimeout(timer);
     } else {
       setShowPuzzle(false);
     }
@@ -106,6 +113,7 @@ export function Home() {
       )}
 
       {showNotification && insideCircleIndex !== -1 && (
+        /* Entering investigation site notification */
         <div className="proximity-notification">
           <div className="proximity-notification__content">
             <span className="proximity-notification__icon">🔍</span>
