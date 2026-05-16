@@ -3,7 +3,8 @@ import type { Quest } from "../types/quest";
 export function getQuests(): Quest[] {
   return [
     {
-      id: 1,
+      title: "Quest",
+      description: "Solve the puzzle at this location.",
       investigationSite: {
         id: 1,
         lat: 51.432742,
@@ -36,7 +37,8 @@ export function getQuests(): Quest[] {
       },
     },
     {
-      id: 2,
+      title: "Quest",
+      description: "Solve the puzzle at this location.",
       investigationSite: {
         id: 2,
         lat: 51.423634,
@@ -69,7 +71,8 @@ export function getQuests(): Quest[] {
       },
     },
     {
-      id: 3,
+      title: "Quest",
+      description: "Solve the puzzle at this location.",
       investigationSite: {
         id: 3,
         lat: 51.428742,
